@@ -1,0 +1,5 @@
+./Phase1PixelHistoMaker -o PHM_PHASE1_out/test.root root://eoscms.cern.ch//eos/cms/store/group/dpg_tracker_pixel/comm_pixel/tsusacms/2021/TimingScanTest/Ntuple_173.root
+
+./Phase1ScanHistoMaker -o PHM_PHASE1_out/test.root root://eoscms.cern.ch//eos/cms/store/group/dpg_tracker_pixel/comm_pixel/tsusacms/2021/TimingScanTest/Ntuple_110.root root://eoscms.cern.ch//eos/cms/store/group/dpg_tracker_pixel/comm_pixel/tsusacms/2021/TimingScanTest/Ntuple_147.root root://eoscms.cern.ch//eos/cms/store/group/dpg_tracker_pixel/comm_pixel/tsusacms/2021/TimingScanTest/Ntuple_173.root
+
+python condor/run_all.py --prog=Phase1ScanHistoMaker --batch --condor --run --outdir=PHM_PHASE1_out/Reproduce_2018_scan_test_`date "+%Y%m%d_%H%M%S"` --nfile=1 Reproduce_2018_scan_test.txt
