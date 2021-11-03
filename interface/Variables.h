@@ -1572,7 +1572,7 @@ public:
     // Previous pt cuts:
     // BPix - 1.0 GeV
     // 0.6 GeV
-    pt = t.trk.pt>2.0; // increased from 1.0
+    pt = t.trk.pt>1.0; // increased from 1.0
     bool pt_dcol = t.trk.pt>0.6;
     pt_new = t.trk.pt>=2.0;
 
@@ -1590,13 +1590,13 @@ public:
     //   : fabs(t.trk.d0)<0.02 ) // L2,3(,4)
     //  : m.det==1 && fabs(t.trk.d0)<0.05; // FPix
     
-    d0 = std::abs(t.trk.d0) < 0.002;
+    d0 = std::abs(t.trk.d0) < 0.2;
     //d0_new = std::abs(t.trk.d0)<0.2;
     d0_new = m.det==0 ? std::abs(t.trk.d0)<0.05 : std::abs(t.trk.d0)<0.2;
     
     //dz = (m.det==0 && fabs(t.trk.dz)<0.1) 
     //  ||(m.det==1 && fabs(t.trk.dz)<0.5);
-    dz = std::abs(t.trk.dz) < 0.01;
+    dz = std::abs(t.trk.dz) < 1.0;
     //dz_new = sm.det==0 ? std::abs(t.trk.dz)<0.1 : std::abs(t.trk.dz)<0.5;
     dz_new = std::abs(t.trk.dz)<0.5;
 
