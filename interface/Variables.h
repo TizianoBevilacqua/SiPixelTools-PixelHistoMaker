@@ -1572,7 +1572,7 @@ public:
     // Previous pt cuts:
     // BPix - 1.0 GeV
     // 0.6 GeV
-    pt = t.trk.pt>1.0; // increased from 1.0
+    pt = t.trk.pt>2.0; // increased from 1.0
     bool pt_dcol = t.trk.pt>0.6;
     pt_new = t.trk.pt>=2.0;
 
@@ -1590,13 +1590,13 @@ public:
     //   : fabs(t.trk.d0)<0.02 ) // L2,3(,4)
     //  : m.det==1 && fabs(t.trk.d0)<0.05; // FPix
     
-    d0 = std::abs(t.trk.d0) < 0.2;
+    d0 = std::abs(t.trk.d0) < 0.002;
     //d0_new = std::abs(t.trk.d0)<0.2;
     d0_new = m.det==0 ? std::abs(t.trk.d0)<0.05 : std::abs(t.trk.d0)<0.2;
     
     //dz = (m.det==0 && fabs(t.trk.dz)<0.1) 
     //  ||(m.det==1 && fabs(t.trk.dz)<0.5);
-    dz = std::abs(t.trk.dz) < 1.0;
+    dz = std::abs(t.trk.dz) < 0.01;
     //dz_new = sm.det==0 ? std::abs(t.trk.dz)<0.1 : std::abs(t.trk.dz)<0.5;
     dz_new = std::abs(t.trk.dz)<0.5;
 
@@ -1923,7 +1923,7 @@ public:
     effcut_d0          =       cut_nvtx && cut_federr && hp && pt && nstrip &&       dz && pixhit && noscan && goodmod && goodroc && lx_fid && ly_fid && valmis && hitsep && trk_beta_cut;
     effcut_dz          =       cut_nvtx && cut_federr && hp && pt && nstrip && d0 &&       pixhit && noscan && goodmod && goodroc && lx_fid && ly_fid && valmis && hitsep && trk_beta_cut;
     effcut_d0_dz       =       cut_nvtx && cut_federr && hp && pt && nstrip &&             pixhit && noscan && goodmod && goodroc && lx_fid && ly_fid && valmis && hitsep && trk_beta_cut;
-    effcut_scans       =       cut_nvtx && cut_federr && hp && pt && nstrip && d0 && dz && pixhit           && goodmod            && lx_fid && ly_fid && valmis && hitsep && trk_beta_cut;
+    effcut_scans       =                   cut_federr && hp && pt && nstrip &&             pixhit           && goodmod            && lx_fid && ly_fid && valmis && hitsep && trk_beta_cut;
     effcut_startup     =       cut_nvtx && cut_federr && hp && pt && nstrip_vloose && d0_vloose && dz_vloose && pixhit &&            lx_fid && ly_fid && valmis && hitsep && trk_beta_cut;
     effcut_raw         =       cut_nvtx &&               hp && pt && nstrip && d0 && dz && pixhit && noscan && goodmod &&            lx_fid && ly_fid && valmis && hitsep && trk_beta_cut;
     effcut_lx_fid      =       cut_nvtx && cut_federr && hp && pt && nstrip && d0 && dz && pixhit && noscan && goodmod && goodroc &&           ly_fid && valmis && hitsep && trk_beta_cut;
