@@ -134,5 +134,24 @@ python Tutorial/MakeTimingScanTutorialPlots.py PHM_PHASE1_out/Histo_TimingScan_S
 
 ### Running on the cluster
 
+When you have to run on a big number of files it is useful to split the workload in different jobs, since the `PahseI*HistoMaker` scripts would probably crush otherwise (for `PixelHistoMaker` expecially this problem is quite severe). To help doing there are different option: older version of the script was run with `HTCondor`, this submissions script however are not maintained anymore (and also not updated), I am currently running the jobs on the cluster using [slurm workload manager](https://slurm.schedmd.com/documentation.html) and some scripts to help create and babysit the jobs can be found in the `slurm` directory. 
+
+The `batch_sub_script.py` file takes care of the creation submission and babysitting of the jobs, its usage is rather simple and should work out of the box. It takes some input files and options that are described inside:
+```
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#- USAGE: --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#- python my_batch_sub_script.py --taskname [taskname] --input [txt file with list of input files] --nfile [number of files per job] --prog [program to execute] --outdir [directory to save output to] --create -#
+#- python my_batch_sub_script.py --taskname [taskname] --status --------------------------------------------------------------------------------------------------------------------------------------------------#
+#- python my_batch_sub_script.py --taskname [taskname] --submit --------------------------------------------------------------------------------------------------------------------------------------------------#
+#- python my_batch_sub_script.py --taskname [taskname] --resubmit ------------------------------------------------------------------------------------------------------------------------------------------------#
+#- python my_batch_sub_script.py --taskname [taskname] --missing -------------------------------------------------------------------------------------------------------------------------------------------------#
+#- python my_batch_sub_script.py --taskname [taskname] --hadd ----------------------------------------------------------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+```
+the other script, `slurm_template.sh` is basically a template that is taken and given to the cluster to build a scram environment with CMSSW and run the job.
+
  
 
