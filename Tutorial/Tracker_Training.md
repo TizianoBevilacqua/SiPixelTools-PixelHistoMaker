@@ -41,16 +41,16 @@ Now let's have a look to the structure of the code we will be using, opening a f
 ### Phase1ScanHistoMaker.cc
 
 The first ~90 lines of this file are used to configure the scan: 
-* define which version of the included files has to be used $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L40) 40-71, 
-* choose the type of scan `Timing` or `Bias` to be performed and select which class of histograms we want to "activate" and save in the ouput $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L83) 83-86,
-* define the configuration of the Pixel detector $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L74) 74-79,
-* select which class of trees has to be used in the scan $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L30) 30-32 [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L129) 129-133
-* define the distance between the track and the cluster to consider an Hit as valid in the Hit Efficiency calculation $\rightarrow$ [line](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L37) 37 and [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L418) 418-419.
+* define which version of the included files has to be used $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L40) 40-71, 
+* choose the type of scan `Timing` or `Bias` to be performed and select which class of histograms we want to "activate" and save in the ouput $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L83) 83-86,
+* define the configuration of the Pixel detector $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L74) 74-79,
+* select which class of trees has to be used in the scan $\rightarrow$ [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L30) 30-32 [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L129) 129-133
+* define the distance between the track and the cluster to consider an Hit as valid in the Hit Efficiency calculation $\rightarrow$ [line](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L37) 37 and [lines](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L418) 418-419.
 
 The last bullet introduces an important point. The scan script makes use of a `SmartHisto` (`sh`) class (defined in the `interface/SmartHistos.h` [file](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/interface/SmartHistos.h)), two of the main features that are used here are the `FillParameter`s, that basically define the structure of the histograms to be produced, such as binning, range, fill criteria and so on, and the `PostFix`es that consist in the parameter to be explored in the histograms.
 
-The actual histogram definition is done combining the previously defined parameters (`FillParameter`s and `PostFix`es) using the `AddHisto` method of the `sh`, examples can be seen all over the place but in particular let's have a look at [line 557](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L557) where the histograms for the TimingScan are defined. When using `AddHistos` other things can/have to be specified, such as:
-* `cuts` to be used to select the tracks, this are defined via another method of the `sh` class, `sh.AddNewCut()`, and can be specified directly (as can be seen at [line 436](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L436) for a cut regarding the belonging of an hit to a specific layer or taken from other input files as for the HitEfficiency cuts, [line 428](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L428)
+The actual histogram definition is done combining the previously defined parameters (`FillParameter`s and `PostFix`es) using the `AddHisto` method of the `sh`, examples can be seen all over the place but in particular let's have a look at [line 557](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L557) where the histograms for the TimingScan are defined. When using `AddHistos` other things can/have to be specified, such as:
+* `cuts` to be used to select the tracks, this are defined via another method of the `sh` class, `sh.AddNewCut()`, and can be specified directly (as can be seen at [line 436](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L436) for a cut regarding the belonging of an hit to a specific layer or taken from other input files as for the HitEfficiency cuts, [line 428](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L428)
 * options for drawing and other matters such as particular error handling cases, 
 * ranges to be shown by default in the TCanvas.
 
@@ -58,12 +58,12 @@ Apart from the histogram definition that is the main part to edit when trying to
 ```
 RunData run; LumiData lumi; EventData e; TrajMeasurement t; Cluster c; 
 ```
-that comes from the inclusion of `interface/DataStruct_Phase1_v9.h`, and that hold variables read from TTrees and are passed to the instance of the `TreeReader` (included from `interface/TreeReader_Phase1_v4.h`) at [line 127](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L127);
+that comes from the inclusion of `interface/DataStruct_Phase1_v9.h`, and that hold variables read from TTrees and are passed to the instance of the `TreeReader` (included from `interface/TreeReader_Phase1_v4.h`) at [line 127](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L127);
 
 ```
 TreeLooper looper(&tr, &v, EVT_LOOP, TRAJ_LOOP, CLUST_LOOP);
 ```
-that as the name suggest has the task of looping over the entries of the trees ([line 1024](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L1024)); and
+that as the name suggest has the task of looping over the entries of the trees ([line 1024](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L1024)); and
 
 ```
 Variables v;
@@ -73,10 +73,10 @@ that is an object defined in `interface/Variables.h` that contains variables der
 ### interface/scan_points.h
 
 This file is crucial to the good outcome of the scans, it encodes timing and bias informations for the scans. Every time a new scan is performed, new information about the scan points and corresponding run numbers and delays have to be added:
-* **run numbers** and related scan numbers at the bottom of `delay_scan_number()` function, [line 9](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/interface/scan_points.h#L9), 
-* **delays** at the bottom of the `delay()` one, [line 428](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/interface/scan_points.h#L428)
+* **run numbers** and related scan numbers at the bottom of `delay_scan_number()` function, [line 9](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/interface/scan_points.h#L9), 
+* **delays** at the bottom of the `delay()` one, [line 428](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/interface/scan_points.h#L428)
 
-the scan number set in the `delay_scan_number()` has to be the same as the one set for the `"DelayScans"` `PostFix` at [line 207](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/Phase1ScanHistoMaker.cc#L207) of `Phase1ScanHistoMaker.cc`.
+the scan number set in the `delay_scan_number()` has to be the same as the one set for the `"DelayScans"` `PostFix` at [line 207](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/Phase1ScanHistoMaker.cc#L207) of `Phase1ScanHistoMaker.cc`.
 
 ### Luminosity informations
 
@@ -90,15 +90,15 @@ cat brilcalc_Run3.log | head -n-8 | tail -n+5 | sed "s;|;;g;s;:; ;g" | awk '{ pr
 ```
 where the `--begin` and `--end` points has to be changed according to one's needs, and can be set as dates, fill numbers or run numbers.
 
-This file is then loaded and used in the script in the `interface/Variables.h` file at [line 907](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/interface/Variables.h#L907), the integrated luminosity of each ls is given in nb and used to extract the instantaneous one as well. These numbers are used when producing HitEfficiency VS InstLumi, HitEfficiency VS Pileup and trend plots as a function of the integrated luminosity.
+This file is then loaded and used in the script in the `interface/Variables.h` file at [line 907](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/interface/Variables.h#L907), the integrated luminosity of each ls is given in nb and used to extract the instantaneous one as well. These numbers are used when producing HitEfficiency VS InstLumi, HitEfficiency VS Pileup and trend plots as a function of the integrated luminosity.
 
 ### Bad ReadOutChips (ROCs) exclusion
 
 Again this section is more relevant for the `Phase1PixelHistoMaker` script than for the Scans but is fundamental to get sensible results. In our analysis of the performances of the Pixel we want to exclude ROCs that are not behaving properly in the run for whatever reason. To do so we use a bookkeeping file that stores the information about the ROCs that are marked as bad in each run. This file is placed in the `input` directory as `input/Badroc_List.root`. It stores histograms for each analysed run containing the ID numbers of the incriminated ROCs (in an arcane and mysterious scheme) and a distribution of the HitEfficiency of the ROCs in the run. The list is loaded every time the code is used, and updated when a new run is processed or more statistycs is accumulated for an already processed one. Thus whenever one is interested in results concerning new runs the code has to be run twice to account for and exclude bad ROCs (the `-b` flag can be use to speed up the process in the first iteration of the execution).
 
-The handling of loading and updating of the file is dealt with in the `interface/Variables.h` file at [line 1084](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/interface/Variables.h#L1084), with the `load_roc_sel()` function and in the `interface/TreeLooper.h` at [line 512](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/interface/TreeLooper.h#L512) with the `badroc_run_()` function.
+The handling of loading and updating of the file is dealt with in the `interface/Variables.h` file at [line 1084](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/interface/Variables.h#L1084), with the `load_roc_sel()` function and in the `interface/TreeLooper.h` at [line 512](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/interface/TreeLooper.h#L512) with the `badroc_run_()` function.
 
-The Bad ROCs for the event are instead excluded at [line 1677](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/0adec5a1517d834ec652617a77eb24dc5cad6493/interface/Variables.h#L1677) of the `interface/Variables.h` file.
+The Bad ROCs for the event are instead excluded at [line 1677](https://github.com/TizianoBevilacqua/SiPixelTools-PixelHistoMaker/blob/TrackerTraining/interface/Variables.h#L1677) of the `interface/Variables.h` file.
 
 ### Hands on
 
