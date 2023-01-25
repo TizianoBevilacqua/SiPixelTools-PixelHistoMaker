@@ -21,7 +21,6 @@ cmsenv
 The next step is to clone the package directory from GitHub
 ```
 git clone -b TrackerTraining git@github.com:TizianoBevilacqua/SiPixelTools-PixelHistoMaker.git SiPixelTools/PixelHistoMaker
-git clone git@github.com:TizianoBevilacqua/SiPixelTools-PixelHistoMaker.git SiPixelTools/PixelHistoMaker
 cd SiPixelTools/PixelHistoMaker
 ```
 we also create a directory to store output files and build the desired script with `cmake`
