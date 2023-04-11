@@ -1995,7 +1995,7 @@ public:
 
 #if DATASTRUCT_VER >= 108
     new_effcut_presel = cut_nvtx && cut_federr && hp &&                                     pixhit && noscan && goodmod && goodroc && lx_fid && ly_fid && valmis;
-    new_effcut_all    = new_effcut_presel && pt_new && nstrip && d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new && t.trk.eta*t.trk.eta > 1 ;
+    new_effcut_all    = new_effcut_presel && pt_new && nstrip && d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
     new_effcut_pt     = new_effcut_presel &&           nstrip && d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
     new_effcut_nstrip = new_effcut_presel && pt_new &&           d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
     new_effcut_d0     = new_effcut_presel && pt_new && nstrip &&           dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
