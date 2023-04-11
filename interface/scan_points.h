@@ -420,6 +420,18 @@ namespace scans {
     case 359582: return 46;
     case 359584: return 46;
 
+      // 2023
+      // Scan 1 - Apr 2022 mini scan
+      // https://cmsonline.cern.ch/webcenter/portal/cmsonline/Common/Elog?_piref683379043.strutsAction=%2FviewMessageDetails.do%3FmsgId%3D1177502
+    case 365835: return 47;
+    case 365836: return 47;
+    case 365837: return 47;
+    case 365838: return 47;
+    case 365839: return 47;
+    case 365840: return 47;
+    case 365841: return 47;
+    case 365842: return 47;
+
     default:
       return -1;
     }
@@ -1190,11 +1202,23 @@ namespace scans {
     case 359576: return 5.;
     case 359577: return 3.;
     case 359578: return 2.;
-    case 359579: return 1.;
+    case 359579: return 1.0;
     case 359580: return -3.;
     case 359581: return -2.;
-    case 359582: return -1.;
+    case 359582: return -1.0;
     case 359584: return 0.;
+
+      // 2023
+      // Scan 1 - Apr 2022 mini scan
+      // https://cmsonline.cern.ch/webcenter/portal/cmsonline/Common/Elog?_piref683379043.strutsAction=%2FviewMessageDetails.do%3FmsgId%3D1177502
+    case 365835: return -3.;
+    case 365836: return -2.;
+    case 365837: return -1.;
+    case 365838: return 1.;
+    case 365839: return 2.;
+    case 365840: return 3.;
+    case 365841: return 5.;
+    case 365842: return 0.;
 
       /*
     case 2: 
