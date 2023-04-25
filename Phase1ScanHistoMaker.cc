@@ -435,7 +435,7 @@ int main(int argc, char* argv[]) {
   sh.AddNewCut("EffCutsScans",      [&v]{ return v.effcut_scans; });
   sh.AddNewCut("NewEffCuts",        [&v]{ return v.new_effcut_all;   });
   sh.AddNewCut("NewEffCutsAllROC",  [&v]{ return v.new_effcut_allmod;});
-  sh.AddNewCut("NewEffCutsScans",   [&v]{ return v.new_effcut_scans; });
+  //sh.AddNewCut("NewEffCutsScans",   [&v]{ return v.new_effcut_scans; });
   sh.AddNewCut("EffCutsScansLoose", [&v]{ return v.effcut_scans_loose; });
   //sh.AddNewCut("EffCutsScans",      [&v]{ return v.effcut_startup; });
   sh.AddNewCut("DColEffCuts",       [&v]{ return v.dcol_effcut_all;    });
@@ -499,12 +499,12 @@ int main(int argc, char* argv[]) {
   //                         NewHitEfficiency  Histogram Definitions
 #if DATASTRUCT_VER >= 108
   // Layers/Disks
-  std::cout<<"HERE!!!"<<std::endl;
-  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_LayersDisks",                         .pfs={"DelayScans"},          .cuts={"NewEffCutsScans","Delay==22"}, .draw="PE1", .opt="", .ranges={0,0, 0.95,1} });
-  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Ladders",                             .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="PE1", .opt="", .ranges={0,0, 0,1} });
-  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Modules",                             .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="PE1", .opt="", .ranges={0,0, 0,1} });
-  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Ladders_vs_Modules",                  .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  std::cout<<"HERE!!!!!!"<<std::endl;
+  //std::cout<<"HERE!!!"<<std::endl;
+  //sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_LayersDisks",                         .pfs={"DelayScans"},          .cuts={"NewEffCutsScans","Delay==22"}, .draw="PE1", .opt="", .ranges={0,0, 0.95,1} });
+  //sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Ladders",                             .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="PE1", .opt="", .ranges={0,0, 0,1} });
+  //sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Modules",                             .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="PE1", .opt="", .ranges={0,0, 0,1} });
+  //sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Ladders_vs_Modules",                  .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  //std::cout<<"HERE!!!!!!"<<std::endl;
   // ROC Maps
   sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L1_Ladder_vs_Module",            .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Lay1"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L2_Ladder_vs_Module",            .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Lay2"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
@@ -512,12 +512,12 @@ int main(int argc, char* argv[]) {
   sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L4_Ladder_vs_Module",            .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Lay4"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring1_BladePanel_vs_Disk",       .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Ring1"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring2_BladePanel_vs_Disk",       .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Ring2"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L1_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay1"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L2_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay2"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L3_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay3"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L4_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay4"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring1_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Ring1"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring2_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Ring2"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  //sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L1_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay1"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  //sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L2_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay2"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  //sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L3_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay3"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  //sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L4_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay4"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  //sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring1_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Ring1"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  //sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring2_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Ring2"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
 #endif 
 
   sh.AddHistos("traj",  { .fill="DColEfficiency_vs_ROC_L1_Ladder_vs_Module",           .pfs={"DelayScans"},            .cuts={"ZeroBias","DColEffCutsAllROC","Lay1"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
@@ -582,7 +582,7 @@ int main(int argc, char* argv[]) {
       if      (i==8)  cuts.push_back("EffCutsScans");
       else if (i==9)  cuts.push_back("DColEffCutsScans");
       else if (i==10) cuts.push_back("EffCutsScansLoose");
-      else if (i==11) cuts.push_back("NewEffCutsScans");
+      //else if (i==11) cuts.push_back("NewEffCutsScans");
       std::string main;
       if      (scan=="Delay")      main = "DelayScans";
       else if (scan=="ContrlReg")  main = "ContrlRegScans";
