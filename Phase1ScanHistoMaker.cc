@@ -411,7 +411,7 @@ int main(int argc, char* argv[]) {
 
   // Special Y/Z axis parameters:
   sh.AddSpecial({ .name="HitEfficiency",      .name_plus_1d="ValidHit",  .axis="Hit Efficiency",  .axis_plus_1d="Valid Hit"});
-  sh.AddSpecial({ .name="NewHitEfficiency",  .name_plus_1d="ValidHit", .axis="Hit Efficiency",  .axis_plus_1d="Valid Hit"});
+  //sh.AddSpecial({ .name="NewHitEfficiency",  .name_plus_1d="ValidHit", .axis="Hit Efficiency",  .axis_plus_1d="Valid Hit"});
   //sh.AddSpecial({ .name="LooseHitEfficiency", .name_plus_1d="looseValidHit",  .axis="LooseHit Efficiency",  .axis_plus_1d="LooseValid Hit"});
   sh.AddSpecial({ .name="DColEfficiency",     .name_plus_1d="ColParity", .axis="Double Column Efficiency",  .axis_plus_1d="First Pixel Column Parity"});
 #if PHASE == 0
@@ -420,7 +420,7 @@ int main(int argc, char* argv[]) {
 #else
   // Recover missing hits within 1 mm - Currently does not work
   sh.AddNewFillParams("HitEfficiency",     { .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t]{ return t.missing==1 ? t.d_cl>=0 && t.d_cl<DCL_MISSING : 1; }, .axis_title="Hit Efficiency", .def_range={0.5, 1} });
-  sh.AddNewFillParams("NewHitEfficiency",  { .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t,&c]{ return t.missing!=1 ? 1 : t.d_cl>=0 && (c.mod_on.det==0 && std::abs(t.trk.eta)>= 1.0 ?  t.d_cl<DCL_MISSING_NEW : t.d_cl<0.05);}, .axis_title="Hit Efficiency", .def_range={0.7, 1} });
+  //sh.AddNewFillParams("NewHitEfficiency",  { .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t,&c]{ return t.missing!=1 ? 1 : t.d_cl>=0 && (c.mod_on.det==0 && std::abs(t.trk.eta)>= 1.0 ?  t.d_cl<DCL_MISSING_NEW : t.d_cl<0.05);}, .axis_title="Hit Efficiency", .def_range={0.7, 1} });
   sh.AddNewFillParams("LooseHitEfficiency",{ .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t]{ return t.missing==1 ? t.d_cl>=0 && t.d_cl<DCL_MISSING : 1; }, .axis_title="LooseHit Efficiency", .def_range={0.5, 1} });
   sh.AddNewFillParams("DColEfficiency",    { .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t]{ if (t.clu.size!=2) return -1; if (((int)t.clu.pix[0][1])%52>=50||((int)t.clu.pix[0][1])%52<2) return -1; return (((int)t.clu.pix[0][1])%52)%2; }, .axis_title="Double Column Efficiency", .def_range={0, 1} });
 #endif
@@ -566,8 +566,8 @@ int main(int argc, char* argv[]) {
   double mpv1 =  0, mpv2 = 50;
   std::vector<std::string> plots = {"AvgCluSize","AvgCluCharge", "AvgOnTrkCluSize", "AvgOnTrkCluSizeX", "AvgOnTrkCluSizeY",
 				    "AvgOnTrkCluCharge","AvgNormOnTrkCluCharge", "NormOnTrkCluChargeMPV", "HitEfficiency", "DColEfficiency", "LooseHitEfficiency"};
-  std::vector<double> ymins = {sz1, ch1, osz1, osx1, osz1, och1, onc1, mpv1, 0.6, 0.0, 0.6, 0.8};
-  std::vector<double> ymaxs = {sz2, ch2, osz2, osx2, osz2, och2, onc2, mpv2, 1.05, 1.0, 1.05, 1.05};
+  std::vector<double> ymins = {sz1, ch1, osz1, osx1, osz1, och1, onc1, mpv1, 0.6, 0.0, 0.6};
+  std::vector<double> ymaxs = {sz2, ch2, osz2, osx2, osz2, och2, onc2, mpv2, 1.05, 1.0, 1.05,};
 
   for (std::string scan : {"Delay","ContrlReg","VcThrShift","ViBias"}) {
     for (size_t i=0, n=plots.size(); i<n; ++i) if (i>=2 || CLUST_LOOP>0) {
