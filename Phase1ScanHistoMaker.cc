@@ -34,7 +34,8 @@
 // This is used to do quick tests of binning on low statistics
 #define NTHFILE 1
 
-#define DCL_MISSING 0.1 // 1000 um
+#define DCL_MISSING     0.1 // 1000 um
+#define DCL_MISSING_NEW 0.1 // 1000 um - same for new hit efficiency
 
 // TimingStudy versions
 #define VER 8
@@ -204,7 +205,8 @@ int main(int argc, char* argv[]) {
 		       (e.bx==291||e.bx==1185||e.bx==2079) ? 2 :
 		       (size_t)-1; }, "BXm1;BX0;BXp1", "First BX -1;First BX;First BX +1", "601,418,633");
   
-  sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-47;   }, "2023AprMiniScan", "", "1");
+  sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-48;   }, "2023AprFullScan", "", "1");
+  //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-47;   }, "2023AprMiniScan", "", "1");
   //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-46;   }, "2022SepMiniScan", "", "1");
   //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-45;   }, "2022Jul_FullScan", "", "1");
   //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-44;   }, "2022Jun_MiniScan", "", "1");
@@ -409,6 +411,7 @@ int main(int argc, char* argv[]) {
 
   // Special Y/Z axis parameters:
   sh.AddSpecial({ .name="HitEfficiency",      .name_plus_1d="ValidHit",  .axis="Hit Efficiency",  .axis_plus_1d="Valid Hit"});
+  sh.AddSpecial({ .name="NewHitEfficiency",  .name_plus_1d="ValidHit", .axis="Hit Efficiency",  .axis_plus_1d="Valid Hit"});
   //sh.AddSpecial({ .name="LooseHitEfficiency", .name_plus_1d="looseValidHit",  .axis="LooseHit Efficiency",  .axis_plus_1d="LooseValid Hit"});
   sh.AddSpecial({ .name="DColEfficiency",     .name_plus_1d="ColParity", .axis="Double Column Efficiency",  .axis_plus_1d="First Pixel Column Parity"});
 #if PHASE == 0
@@ -417,6 +420,7 @@ int main(int argc, char* argv[]) {
 #else
   // Recover missing hits within 1 mm - Currently does not work
   sh.AddNewFillParams("HitEfficiency",     { .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t]{ return t.missing==1 ? t.d_cl>=0 && t.d_cl<DCL_MISSING : 1; }, .axis_title="Hit Efficiency", .def_range={0.5, 1} });
+  sh.AddNewFillParams("NewHitEfficiency",  { .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t,&c]{ return t.missing!=1 ? 1 : t.d_cl>=0 && (c.mod_on.det==0 && std::abs(t.trk.eta)>= 1.0 ?  t.d_cl<DCL_MISSING_NEW : t.d_cl<0.05);}, .axis_title="Hit Efficiency", .def_range={0.7, 1} });
   sh.AddNewFillParams("LooseHitEfficiency",{ .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t]{ return t.missing==1 ? t.d_cl>=0 && t.d_cl<DCL_MISSING : 1; }, .axis_title="LooseHit Efficiency", .def_range={0.5, 1} });
   sh.AddNewFillParams("DColEfficiency",    { .nbin=   2, .bins={   -0.5,    1.5}, .fill=[&t]{ if (t.clu.size!=2) return -1; if (((int)t.clu.pix[0][1])%52>=50||((int)t.clu.pix[0][1])%52<2) return -1; return (((int)t.clu.pix[0][1])%52)%2; }, .axis_title="Double Column Efficiency", .def_range={0, 1} });
 #endif
@@ -429,6 +433,9 @@ int main(int argc, char* argv[]) {
   sh.AddNewCut("EffCuts",           [&v]{ return v.effcut_all;   });
   sh.AddNewCut("EffCutsAllROC",     [&v]{ return v.effcut_allmod;});
   sh.AddNewCut("EffCutsScans",      [&v]{ return v.effcut_scans; });
+  sh.AddNewCut("NewEffCuts",        [&v]{ return v.new_effcut_all;   });
+  sh.AddNewCut("NewEffCutsAllROC",  [&v]{ return v.new_effcut_allmod;});
+  sh.AddNewCut("NewEffCutsScans",   [&v]{ return v.new_effcut_scans; });
   sh.AddNewCut("EffCutsScansLoose", [&v]{ return v.effcut_scans_loose; });
   //sh.AddNewCut("EffCutsScans",      [&v]{ return v.effcut_startup; });
   sh.AddNewCut("DColEffCuts",       [&v]{ return v.dcol_effcut_all;    });
@@ -488,6 +495,31 @@ int main(int argc, char* argv[]) {
   sh.AddHistos("traj",  { .fill="HitEfficiency_vs_ROC_Ring1_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","EffCutsScans","Ring1"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="HitEfficiency_vs_ROC_Ring2_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","EffCutsScans","Ring2"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
 
+  // --------------------------------------------------------------------------
+  //                         NewHitEfficiency  Histogram Definitions
+#if DATASTRUCT_VER >= 108
+  // Layers/Disks
+  std::cout<<"HERE!!!"<<std::endl;
+  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_LayersDisks",                         .pfs={"DelayScans"},          .cuts={"NewEffCutsScans","Delay==22"}, .draw="PE1", .opt="", .ranges={0,0, 0.95,1} });
+  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Ladders",                             .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="PE1", .opt="", .ranges={0,0, 0,1} });
+  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Modules",                             .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="PE1", .opt="", .ranges={0,0, 0,1} });
+  sh.AddHistos("traj", { .fill="NewHitEfficiency_vs_Ladders_vs_Modules",                  .pfs={"Layers","DelayScans"}, .cuts={"NewEffCutsScans","Delay==22","BPix"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  std::cout<<"HERE!!!!!!"<<std::endl;
+  // ROC Maps
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L1_Ladder_vs_Module",            .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Lay1"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L2_Ladder_vs_Module",            .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Lay2"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L3_Ladder_vs_Module",            .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Lay3"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L4_Ladder_vs_Module",            .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Lay4"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring1_BladePanel_vs_Disk",       .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Ring1"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring2_BladePanel_vs_Disk",       .pfs={"DelayScans"},            .cuts={"ZeroBias","NewEffCutsAllROC","Ring2"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L1_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay1"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L2_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay2"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L3_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay3"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_L4_Ladder_vs_Module",            .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Lay4"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring1_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Ring1"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+  sh.AddHistos("traj",  { .fill="NewHitEfficiency_vs_ROC_Ring2_BladePanel_vs_Disk",       .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","NewEffCutsScans","Ring2"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
+#endif 
+
   sh.AddHistos("traj",  { .fill="DColEfficiency_vs_ROC_L1_Ladder_vs_Module",           .pfs={"DelayScans"},            .cuts={"ZeroBias","DColEffCutsAllROC","Lay1"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="DColEfficiency_vs_ROC_L2_Ladder_vs_Module",           .pfs={"DelayScans"},            .cuts={"ZeroBias","DColEffCutsAllROC","Lay2"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="DColEfficiency_vs_ROC_L3_Ladder_vs_Module",           .pfs={"DelayScans"},            .cuts={"ZeroBias","DColEffCutsAllROC","Lay3"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
@@ -500,7 +532,7 @@ int main(int argc, char* argv[]) {
   sh.AddHistos("traj",  { .fill="DColEfficiency_vs_ROC_L4_Ladder_vs_Module",           .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","DColEffCutsScans","Lay4"},  .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="DColEfficiency_vs_ROC_Ring1_BladePanel_vs_Disk",      .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","DColEffCutsScans","Ring1"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
   sh.AddHistos("traj",  { .fill="DColEfficiency_vs_ROC_Ring2_BladePanel_vs_Disk",      .pfs={"DelayScans","ExclMods"}, .cuts={"ZeroBias","DColEffCutsScans","Ring2"}, .draw="COLZ", .opt="", .ranges={0,0, 0,0, 0,1} });
-  
+
   
 #if CLUST_LOOP==1
   sh.AddHistos("clust", { .fill="ROC_L1_Ladder_vs_Module",                             .pfs={"DelayScans"},          .cuts={"ZeroBias","Lay1"},  .draw="COLZ", .opt="Log", .ranges={0,0, 0,0, 0,0} });
@@ -534,8 +566,8 @@ int main(int argc, char* argv[]) {
   double mpv1 =  0, mpv2 = 50;
   std::vector<std::string> plots = {"AvgCluSize","AvgCluCharge", "AvgOnTrkCluSize", "AvgOnTrkCluSizeX", "AvgOnTrkCluSizeY",
 				    "AvgOnTrkCluCharge","AvgNormOnTrkCluCharge", "NormOnTrkCluChargeMPV", "HitEfficiency", "DColEfficiency", "LooseHitEfficiency"};
-  std::vector<double> ymins = {sz1, ch1, osz1, osx1, osz1, och1, onc1, mpv1, 0.6, 0.0, 0.6};
-  std::vector<double> ymaxs = {sz2, ch2, osz2, osx2, osz2, och2, onc2, mpv2, 1.05, 1.0, 1.05};
+  std::vector<double> ymins = {sz1, ch1, osz1, osx1, osz1, och1, onc1, mpv1, 0.6, 0.0, 0.6, 0.8};
+  std::vector<double> ymaxs = {sz2, ch2, osz2, osx2, osz2, och2, onc2, mpv2, 1.05, 1.0, 1.05, 1.05};
 
   for (std::string scan : {"Delay","ContrlReg","VcThrShift","ViBias"}) {
     for (size_t i=0, n=plots.size(); i<n; ++i) if (i>=2 || CLUST_LOOP>0) {
@@ -550,6 +582,7 @@ int main(int argc, char* argv[]) {
       if      (i==8)  cuts.push_back("EffCutsScans");
       else if (i==9)  cuts.push_back("DColEffCutsScans");
       else if (i==10) cuts.push_back("EffCutsScansLoose");
+      else if (i==11) cuts.push_back("NewEffCutsScans");
       std::string main;
       if      (scan=="Delay")      main = "DelayScans";
       else if (scan=="ContrlReg")  main = "ContrlRegScans";
