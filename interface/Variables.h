@@ -196,7 +196,10 @@ public:
   bool effcut_hitsep;
   bool effcut_beta  ;
   bool new_effcut_all;
+  bool new_effcut_allmod;
   bool new_effcut_presel;
+  bool new_effcut_scans;
+  bool new_effcut_pr_sc;
   bool new_effcut_pt;
   bool new_effcut_nstrip;
   bool new_effcut_d0;
@@ -839,7 +842,10 @@ public:
     effcut_hitsep= 0;
     effcut_beta= 0;
     new_effcut_all= 0;
-    new_effcut_presel= 0;
+    new_effcut_allmod= 0;
+    new_effcut_scans= 0;
+    new_effcut_all= 0;
+    new_effcut_pr_sc= 0;
     dcol_effcut_all= 0;
     dcol_effcut_scans= 0;
     dcol_effcut_allmod= 0;
@@ -909,6 +915,7 @@ public:
     //input = fopen ("input/run_ls_instlumi_pileup_2017.txt","r");
     //input = fopen ("input/run_ls_instlumi_pileup_phase1.txt","r");
     input = fopen ("input/run_ls_intlumi_pileup_phase1_Run3.txt","r");
+    //input = fopen ("input/run_ls_intlumi_pileup_phase1_Run3_Jan_May_24.txt","r");
     a = 1;
     while (a==1) {
       a = fscanf (input, "%d", &run);
@@ -1995,7 +2002,10 @@ public:
 
 #if DATASTRUCT_VER >= 108
     new_effcut_presel = cut_nvtx && cut_federr && hp &&                                     pixhit && noscan && goodmod && goodroc && lx_fid && ly_fid && valmis;
+    new_effcut_pr_sc  = cut_nvtx && cut_federr && hp &&                                     pixhit           && goodmod            && lx_fid && ly_fid && valmis;
+    new_effcut_allmod = cut_nvtx && cut_federr && hp &&                                     pixhit                                 && lx_fid && ly_fid && valmis;
     new_effcut_all    = new_effcut_presel && pt_new && nstrip && d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
+    new_effcut_scans  = new_effcut_pr_sc  && pt_new && nstrip && d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
     new_effcut_pt     = new_effcut_presel &&           nstrip && d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
     new_effcut_nstrip = new_effcut_presel && pt_new &&           d0_new && dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;
     new_effcut_d0     = new_effcut_presel && pt_new && nstrip &&           dz_new && t.trk.muon_id_tight>0 && t.trk.muon_iso_pf>0 && hitsep_new;

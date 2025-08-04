@@ -453,6 +453,26 @@ namespace scans {
     case 366441: return 48;
     case 366442: return 48;
 
+      // Scan 3 - Apr 2024 full scan
+      // https://cmsonline.cern.ch/webcenter/portal/cmsonline/Common/Elog?_piref683379043.strutsAction=%2FviewMessageDetails.do%3FmsgId%3D1208943
+    case 378994: return 49;
+    case 378995: return 49;
+    case 378996: return 49;
+    case 378997: return 49;
+    case 378998: return 49;
+    case 378999: return 49;
+    case 379000: return 49;
+    case 379001: return 49;
+    case 379003: return 49;
+    case 379004: return 49;
+    case 379005: return 49;
+    case 379006: return 49;
+    case 379007: return 49;
+    case 379008: return 49;
+    case 379009: return 49;
+    case 379010: return 49;
+
+
     default:
       return -1;
     }
@@ -1242,7 +1262,7 @@ namespace scans {
     case 365842: return 0.;
 
         // Scan 2 - Apr 2023 full scan
-      // hhttps://cmsonline.cern.ch/webcenter/portal/cmsonline/Common/Elog?_piref683379043.strutsAction=%2FviewMessageDetails.do%3FmsgId%3D1179227
+      // https://cmsonline.cern.ch/webcenter/portal/cmsonline/Common/Elog?_piref683379043.strutsAction=%2FviewMessageDetails.do%3FmsgId%3D1179227
     case 366406: return 1.;
     case 366409: return 2.;
     case 366410: return 3.;
@@ -1261,6 +1281,25 @@ namespace scans {
     case 366440: return -13.;
     case 366441: return -15.;
     case 366442: return 0.;
+    
+        // Scan 3 - Apr 2024 full scan
+      // https://cmsonline.cern.ch/webcenter/portal/cmsonline/Common/Elog?_piref683379043.strutsAction=%2FviewMessageDetails.do%3FmsgId%3D1208943
+    case 378994: return -13.;
+    case 378995: return -11.;
+    case 378996: return -9.;
+    case 378997: return -7.;
+    case 378998: return -5.;
+    case 378999: return -3.;
+    case 379000: return -2.;
+    case 379001: return -1.;
+    case 379003: return 0.;
+    case 379004: return 1.;
+    case 379005: return 2.;
+    case 379006: return 3.;
+    case 379007: return 4.;
+    case 379008: return 5.;
+    case 379009: return 6.;
+    case 379010: return 7.;
 
       /*
     case 2: 

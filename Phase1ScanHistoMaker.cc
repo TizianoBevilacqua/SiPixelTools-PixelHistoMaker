@@ -173,6 +173,7 @@ int main(int argc, char* argv[]) {
   sh.AddNewPostfix("HVGroupsScanned",   [&v]{ return v.pf_lays_disks;   }, "L[1to3]OneHVGrp;D[1to2]OneHVGrp", "Layer [1to3] (One HV group);Disk [1to2] (One HV group)", col5_red_to_green);
 #elif PHASE == 1
   sh.AddNewPostfix("Layers",            [&v]{ return v.pf_layers;       }, "Lay[1to4]", "Layer [1to4]", col4_red_to_cyan);
+  sh.AddNewPostfix("LayersExclSec1",    [&v]{ return (v.pf_sector =! 1 ? v.pf_layers : -1); }, "Lay[1to4]", "Layer [1to4]", col4_red_to_cyan);
   sh.AddNewPostfix("Ladders",           [&v]{ return v.pf_ladders;      }, "Lad[1to34]", "Ladder [1to34]", col12+col12_rainbow+col12+col12_rainbow);
   sh.AddNewPostfix("Disks",             [&v]{ return v.pf_disks;        }, "Disk[1to3]", "Disk [1to3]", col3_red_to_blue);
   sh.AddNewPostfix("DisksRings",        [&v]{ if (v.pf_det==0) return (size_t)-1; return (size_t)(v.pf_disks*2+(v.ring==2)); }, "Disk1_Ring[1to2];Disk2_Ring[1to2];Disk3_Ring[1to2]", "Disk 1 Ring [1to2];Disk 2 Ring [1to2];Disk 3 Ring [1to2]", col6_rainbow_dark);
@@ -205,7 +206,8 @@ int main(int argc, char* argv[]) {
 		       (e.bx==291||e.bx==1185||e.bx==2079) ? 2 :
 		       (size_t)-1; }, "BXm1;BX0;BXp1", "First BX -1;First BX;First BX +1", "601,418,633");
   
-  sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-48;   }, "2023AprFullScan", "", "1");
+  sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-49;   }, "2024AprFullScan", "", "1");
+  //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-48;   }, "2023AprFullScan", "", "1");
   //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-47;   }, "2023AprMiniScan", "", "1");
   //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-46;   }, "2022SepMiniScan", "", "1");
   //sh.AddNewPostfix("DelayScans",        [&v]{ if (v.pf_delay_scan==-1) return (size_t)-1; return (size_t)v.pf_delay_scan-45;   }, "2022Jul_FullScan", "", "1");
@@ -593,6 +595,7 @@ int main(int argc, char* argv[]) {
       sh.AddHistos(tree,  { .fill=plot+"_vs_"+scan,       .pfs={main,        "LayersDisks"           }, .cuts=cuts, .draw="PE1", .opt="", .ranges={0,0, ymin,ymax} });
       sh.AddHistos(tree,  { .fill=plot+"_vs_"+scan,       .pfs={             "BPixFPix",         main}, .cuts=cuts, .draw="PE1", .opt="", .ranges={0,0, ymin,ymax} });
       sh.AddHistos(tree,  { .fill=plot+"_vs_"+scan,       .pfs={             "Layers",           main}, .cuts=cuts, .draw="PE1", .opt="", .ranges={0,0, ymin,ymax} });
+      sh.AddHistos(tree,  { .fill=plot+"_vs_"+scan,       .pfs={             "LayersExclSec1",   main}, .cuts=cuts, .draw="PE1", .opt="", .ranges={0,0, ymin,ymax} });
       sh.AddHistos(tree,  { .fill=plot+"_vs_"+scan,       .pfs={"Mods",      "Layers",           main}, .cuts=cuts, .draw="PE1", .opt="", .ranges={0,0, ymin,ymax} });
       sh.AddHistos(tree,  { .fill=plot+"_vs_"+scan,       .pfs={"InnerOuter","Layers",           main}, .cuts=cuts, .draw="PE1", .opt="", .ranges={0,0, ymin,ymax} });
       sh.AddHistos(tree,  { .fill=plot+"_vs_"+scan,       .pfs={"InnerOuter","Layers","Mod12/34",main}, .cuts=cuts, .draw="PE1", .opt="", .ranges={0,0, ymin,ymax} });

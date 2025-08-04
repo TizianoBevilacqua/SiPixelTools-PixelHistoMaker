@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #SBATCH --account=t3
 #SBATCH --partition=standard
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=1
 #SBATCH --mem=16000
 #SBATCH --time=10:00:00
 #SBATCH --nodes=1

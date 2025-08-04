@@ -135,6 +135,7 @@ int main(int argc, char* argv[]) {
   // -b option:
   // Former BADROC_RUN
   // Do not create any histos (except for ROC efficiency) to run faster
+
   bool BADROC_RUN = 0;
   bool is_o = false, is_n = false, is_a = false, is_b = false;
   for(int i=1; i<argc; i++) {
@@ -1071,7 +1072,7 @@ int main(int argc, char* argv[]) {
     if (debug) std::cout<<"Phase1PixelHistoMaker - event plots ok"<<std::endl;
     
     //__________________________________________________________________________________
-    //
+    ///
     //                     Cluster Plots (traj - on-track, clust - all)
     
 #if PHASE == 0
